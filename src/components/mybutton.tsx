@@ -10,10 +10,10 @@ interface Props extends TouchableOpacityProps {
 }
 
 export const MyButton = (props: Props) => {
-  const { title, style, loading, ...rest } = props;
+  const { title, style, loading, disabled, ...rest } = props;
 
   return (
-    <TouchableOpacity {...rest} style={[styles.main, style]}>
+    <TouchableOpacity disabled={disabled} {...rest} style={[styles.main, disabled && styles.disabled, style]}>
       <MyText style={styles.txt}>{title ?? "Button"}</MyText>
       {loading && <ActivityIndicator color={COLORS.white} style={{ marginLeft: 10 }} />}
     </TouchableOpacity>
@@ -33,5 +33,8 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.POPPINS_BOLD,
     color: COLORS.white,
     fontSize: 15,
+  },
+  disabled: {
+    backgroundColor: COLORS.grey,
   },
 });

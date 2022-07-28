@@ -3,4 +3,6 @@ export const COLORS = {
   white: "#fffdfa",
   primary: "#974063",
   haze: "#c6ceff",
+  grey: "#ececec",
+  danger: "#A7171A",
 };
