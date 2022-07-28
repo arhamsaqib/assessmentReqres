@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Text, Switch } from "react-native";
-import { ErrorText } from "../../components/errortext";
+import { ErrorText, SuccessText } from "../../components/errortext";
 import { HeadCard } from "../../components/headcard";
 import { MyButton } from "../../components/mybutton";
 import { MyText } from "../../components/mytext";
@@ -12,7 +12,8 @@ export const Login = () => {
   const [securePassword, setSecurePassword]: any = useState(true);
   const [email, setEmail]: any = useState("");
   const [password, setPassword]: any = useState("");
-  const [error, setError]: any = useState("");
+  const [emailError, setEmailError]: any = useState(false);
+  const [emailSuccess, setEmailSuccess]: any = useState(false);
   const [loader, setLoader]: any = useState(false);
 
   const validateEmail = (email: string) => {
@@ -23,18 +24,24 @@ export const Login = () => {
       );
   };
 
-  async function onSubmit() {
-    setError(false);
-    const res = validateEmail(email);
-    if (res === null) {
-      setError("Oops! This doesn't look like a valid email");
-      return;
-    } else {
-    }
-  }
+  async function onSubmit() {}
 
   function disabled() {
     return email.length < 1 || password.length < 1;
+  }
+
+  function onChangeEmail(email: string) {
+    setEmail(email);
+    setEmailError(false);
+    setEmailSuccess(false);
+
+    const res = validateEmail(email);
+    if (res === null) {
+      setEmailError(true);
+      return;
+    } else {
+      setEmailSuccess(true);
+    }
   }
 
   return (
@@ -46,11 +53,14 @@ export const Login = () => {
         <MyTextInput
           placeholder="Enter your email"
           autoCapitalize="none"
-          onChangeText={setEmail}
+          onChangeText={onChangeEmail}
           value={email}
           autoCorrect={false}
           keyboardType="email-address"
         />
+        {emailSuccess && <SuccessText>{"Valid Email"}</SuccessText>}
+        {emailError && <ErrorText>{"Invalid Email"}</ErrorText>}
+
         <View style={{ marginTop: 30 }} />
         <MyText style={styles.fieldName}>PASSWORD</MyText>
         <MyTextInput
@@ -72,8 +82,6 @@ export const Login = () => {
         </View>
         <View style={{ marginTop: 20 }} />
       </View>
-      <ErrorText style={styles.err}>{error}</ErrorText>
-
       <View style={{ width: "50%" }}>
         <MyButton title="Sign in" onPress={onSubmit} disabled={disabled()} loading={loader} />
       </View>
@@ -102,8 +110,5 @@ const styles = StyleSheet.create({
   fieldName: {
     fontFamily: FONTS.POPPINS_BOLD,
     fontSize: 12,
-  },
-  err: {
-    marginVertical: 10,
   },
 });
