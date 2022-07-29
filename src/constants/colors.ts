@@ -5,5 +5,5 @@ export const COLORS = {
   haze: "#c6ceff",
   grey: "#ececec",
   danger: "#A7171A",
-  success: "#AFE1AF",
+  success: "#50C878",
 };
